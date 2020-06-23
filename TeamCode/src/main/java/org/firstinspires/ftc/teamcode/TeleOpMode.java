@@ -23,7 +23,7 @@ public class TeleOpMode extends LinearOpMode {
     @Override
     public void runOpMode(){
 
-        // initialization code begins
+        // initialization code starts here
 
         // initializes the hardware variables to correspond with robot configuration file
         leftFront = hardwareMap.get(DcMotor.class,"leftFront");
