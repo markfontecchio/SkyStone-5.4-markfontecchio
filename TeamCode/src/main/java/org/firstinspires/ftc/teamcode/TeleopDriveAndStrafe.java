@@ -7,13 +7,10 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
-//import com.qualcomm.robotcore.hardware.
 
-//public class MyFIRSTJavaOpMode extends LinearOpMode {
 @TeleOp
-public class MyFIRSTJavaOpMode extends LinearOpMode {
+public class TeleopDriveAndStrafe extends LinearOpMode {
     private Gyroscope imu;
-    //private DcMotor motorTest;
     private DcMotor motorTestFL;
     private DcMotor motorTestFR;
     private DcMotor motorTestBL;
@@ -30,6 +27,14 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
         motorTestBL = hardwareMap.get(DcMotor.class, "motorTestBL");
         motorTestBR = hardwareMap.get(DcMotor.class, "motorTestBR");
 
+        // set proper direction for all motors
+        // you may need to switch the left and right directions depending on robot build
+        motorTestFR.setDirection(DcMotor.Direction.FORWARD);
+        motorTestBR.setDirection(DcMotor.Direction.FORWARD);
+        motorTestFL.setDirection(DcMotor.Direction.REVERSE);
+        motorTestBL.setDirection(DcMotor.Direction.REVERSE);
+
+
         //digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
         //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
         servoTest = hardwareMap.get(Servo.class, "servoTest");
@@ -38,24 +43,30 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         // run until the end of the match (driver presses STOP)
-        double tgtPower, tgtPower2;
+        double drive, strafe;
+
         while (opModeIsActive()) {
-            tgtPower = -this.gamepad1.left_stick_y;
-            tgtPower2 = this.gamepad1.right_stick_x;
+            drive = -this.gamepad1.left_stick_y;
+            strafe = this.gamepad1.right_stick_x;
             //motorTest.setPower(tgtPower);
-            motorTestFL.setPower(tgtPower);
-            motorTestFR.setPower(-tgtPower);
-            motorTestBL.setPower(tgtPower);
-            motorTestBR.setPower(-tgtPower);
+//            motorTestFL.setPower(tgtPower);
+//            motorTestFR.setPower(-tgtPower);
+//            motorTestBL.setPower(tgtPower);
+//            motorTestBR.setPower(-tgtPower);
 
-            motorTestFL.setPower(tgtPower2);
-            motorTestFR.setPower(tgtPower2);
-            motorTestBL.setPower(tgtPower2);
-            motorTestBR.setPower(tgtPower2);
+//            motorTestFL.setPower(tgtPower2);
+//            motorTestFR.setPower(tgtPower2);
+//            motorTestBL.setPower(tgtPower2);
+//            motorTestBR.setPower(tgtPower2);
+
+            // sets the proper power for each drive motor based on gamepad1 controls
+            motorTestFL.setPower(drive + strafe);
+            motorTestBL.setPower(drive - strafe);
+            motorTestFR.setPower(drive - strafe);
+            motorTestBR.setPower(drive + strafe);
 
 
-
-
+/*
 
             // check to see if we need to move the servo.
             if(gamepad1.y) {
@@ -113,11 +124,12 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
                 motorTestBR.setPower(1);
             }
 
+*/
 
 
 
             telemetry.addData("Servo Position", servoTest.getPosition());
-            telemetry.addData("Target Power", tgtPower);
+            telemetry.addData("Drive Power", drive);
             //telemetry.addData("Motor Power", motorTest.getPower());
             telemetry.addData("Motor Power FL", motorTestFL.getPower());
             telemetry.addData("Motor Power FR", motorTestFR.getPower());

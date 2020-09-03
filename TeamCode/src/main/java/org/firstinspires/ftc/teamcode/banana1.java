@@ -7,28 +7,29 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
-//import com.qualcomm.robotcore.hardware.
 
-//public class MyFIRSTJavaOpMode extends LinearOpMode {
 @TeleOp
-public class MyFIRSTJavaOpMode extends LinearOpMode {
+public class banana1 extends LinearOpMode {
     private Gyroscope imu;
-    //private DcMotor motorTest;
     private DcMotor motorTestFL;
     private DcMotor motorTestFR;
     private DcMotor motorTestBL;
     private DcMotor motorTestBR;
+
     // private DigitalChannel digitalTouch;
     // private DistanceSensor sensorColorRange;
     private Servo servoTest;
     @Override
     public void runOpMode() {
         imu = hardwareMap.get(Gyroscope.class, "imu");
-        //motorTest = hardwareMap.get(DcMotor.class, "motorTest");
         motorTestFL = hardwareMap.get(DcMotor.class, "motorTestFL");
         motorTestFR = hardwareMap.get(DcMotor.class, "motorTestFR");
         motorTestBL = hardwareMap.get(DcMotor.class, "motorTestBL");
         motorTestBR = hardwareMap.get(DcMotor.class, "motorTestBR");
+
+        // reverses motor direction for right motors so they're going the right way
+        motorTestFR.setDirection(DcMotor.Direction.REVERSE);
+        motorTestBR.setDirection(DcMotor.Direction.REVERSE);
 
         //digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
         //sensorColorRange = hardwareMap.get(DistanceSensor.class, "sensorColorRange");
@@ -38,10 +39,23 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         // run until the end of the match (driver presses STOP)
-        double tgtPower, tgtPower2;
+        //double tgtPower=0;
+        //double tgtPower2 = 0;
+        double forwardBackward, leftRight;
+
         while (opModeIsActive()) {
-            tgtPower = -this.gamepad1.left_stick_y;
-            tgtPower2 = this.gamepad1.right_stick_x;
+            forwardBackward = -gamepad1.left_stick_y;
+            leftRight = gamepad1.left_stick_x;
+
+            motorTestFL.setPower(forwardBackward + leftRight);
+            motorTestFR.setPower(forwardBackward - leftRight);
+            motorTestBL.setPower(forwardBackward - leftRight);
+            motorTestBR.setPower(forwardBackward + leftRight);
+
+
+
+/*            tgtPower = -this.gamepad1.left_stick_x;
+            tgtPower2 = this.gamepad1.right_stick_y;
             //motorTest.setPower(tgtPower);
             motorTestFL.setPower(tgtPower);
             motorTestFR.setPower(-tgtPower);
@@ -99,25 +113,46 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
 
             }
             if(gamepad1 .right_trigger >.1) {
-                motorTestFL.setPower(-1);
+                motorTestFL.setPower(1);
                 motorTestFR.setPower(-1);
-                motorTestBL.setPower(-1);
+                motorTestBL.setPower(1);
                 motorTestBR.setPower(-1);
             }
 
 
             if(gamepad1.left_trigger >.1) {
-                motorTestFL.setPower(1);
+                motorTestFL.setPower(-1);
                 motorTestFR.setPower(1);
+                motorTestBL.setPower(-1);
+                motorTestBR.setPower(1);
+            }
+
+            if(gamepad1.left_bumper) {
+                motorTestFL.setPower(-1);
+                motorTestFR.setPower(-1);
                 motorTestBL.setPower(1);
                 motorTestBR.setPower(1);
             }
+
+            if(gamepad1.right_bumper) {
+                motorTestFL.setPower(1);
+                motorTestFR.setPower(1);
+                motorTestBL.setPower(-1);
+                motorTestBR.setPower(-1);
+            }*/
+
+
+
+
+
+
+
 
 
 
 
             telemetry.addData("Servo Position", servoTest.getPosition());
-            telemetry.addData("Target Power", tgtPower);
+            telemetry.addData("Forward Backward Power", forwardBackward);
             //telemetry.addData("Motor Power", motorTest.getPower());
             telemetry.addData("Motor Power FL", motorTestFL.getPower());
             telemetry.addData("Motor Power FR", motorTestFR.getPower());
