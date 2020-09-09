@@ -25,15 +25,15 @@ public class Teleop extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        // run until the end of the match (driver presses STOP)
 
+        // runs until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
             // sets values of variables for gamepad1 (start+a) inputs
             forwardBackward = -gamepad1.left_stick_y;
             strafeRight = gamepad1.right_trigger;
             strafeLeft = gamepad1.left_trigger;
-//            leftRight = gamepad1.left_stick_x;
+            leftRight = gamepad1.left_stick_x * 1.3;  // multiplier to fix inaccurate strafing
             rotate = gamepad1.right_stick_x;
 
 /*
@@ -49,13 +49,11 @@ public class Teleop extends LinearOpMode {
             driveBL.setPower(strafeLeft-strafeRight);
             driveBR.setPower(strafeRight-strafeLeft);
 
-
             // mini-program on rotating only
             driveFL.setPower(rotate);
             driveFR.setPower(-rotate);
             driveBL.setPower(rotate);
             driveBR.setPower(-rotate);
-
 
             // mini-program on driving and strafing at the same time
             driveFL.setPower(forwardBackward + leftRight);
@@ -63,13 +61,62 @@ public class Teleop extends LinearOpMode {
             driveBL.setPower(forwardBackward - leftRight);
             driveBR.setPower(forwardBackward + leftRight);
 
-*/
-            // Teleop drive commands for driving, strafing and rotating at the same time
-            driveFL.setPower(forwardBackward + strafeRight - strafeLeft + rotate);
-            driveFR.setPower(forwardBackward + strafeLeft - strafeRight  - rotate);
-            driveBL.setPower(forwardBackward + strafeLeft - strafeRight  + rotate);
-            driveBR.setPower(forwardBackward + strafeRight - strafeLeft  - rotate);
 
+
+            // Teleop drive commands for driving, strafing and rotating at the same time
+            // uses left stick for strafing
+
+            // Put powers in the range of -1 to 1 only if they aren't already (not
+            // checking would cause us to always drive at full speed)
+            if (Math.abs(driveFL.getPower() ) > 1 || Math.abs(driveBL.getPower()) > 1 ||
+                    Math.abs(driveFR.getPower()) > 1 || Math.abs(driveBR.getPower()) > 1 ) {
+                // Find the largest power
+                double max = 0;
+                max = Math.max(Math.abs(driveFL.getPower()), Math.abs(driveBL.getPower()));
+                max = Math.max(Math.abs(driveFR.getPower()), max);
+                max = Math.max(Math.abs(driveBR.getPower()), max);
+
+                // Divide everything by max (it's positive so we don't need to worry
+                // about signs)
+                driveFL.setPower((forwardBackward + leftRight + rotate)/max);
+                driveFR.setPower((forwardBackward - leftRight  - rotate)/max);
+                driveBL.setPower((forwardBackward - leftRight  + rotate)/max);
+                driveBR.setPower((forwardBackward + leftRight  - rotate)/max);
+            }
+            else {
+                driveFL.setPower(forwardBackward + leftRight + rotate);
+                driveFR.setPower(forwardBackward - leftRight  - rotate);
+                driveBL.setPower(forwardBackward - leftRight  + rotate);
+                driveBR.setPower(forwardBackward + leftRight  - rotate);
+            }
+*/
+
+            // Teleop drive commands for driving, strafing and rotating at the same time
+            // uses left and right triggers for strafing
+
+            // Put powers in the range of -1 to 1 only if they aren't already (not
+            // checking would cause us to always drive at full speed)
+            if (Math.abs(driveFL.getPower() ) > 1 || Math.abs(driveBL.getPower()) > 1 ||
+                    Math.abs(driveFR.getPower()) > 1 || Math.abs(driveBR.getPower()) > 1 ) {
+                // Find the largest power
+                double max = 0;
+                max = Math.max(Math.abs(driveFL.getPower()), Math.abs(driveBL.getPower()));
+                max = Math.max(Math.abs(driveFR.getPower()), max);
+                max = Math.max(Math.abs(driveBR.getPower()), max);
+
+                // Divide everything by max (it's positive so we don't need to worry
+                // about signs)
+                driveFL.setPower((forwardBackward + strafeRight - strafeLeft + rotate)/max);
+                driveFR.setPower((forwardBackward + strafeLeft - strafeRight  - rotate)/max);
+                driveBL.setPower((forwardBackward + strafeLeft - strafeRight  + rotate)/max);
+                driveBR.setPower((forwardBackward + strafeRight - strafeLeft  - rotate)/max);
+            }
+            else {
+                driveFL.setPower(forwardBackward + strafeRight - strafeLeft + rotate);
+                driveFR.setPower(forwardBackward + strafeLeft - strafeRight  - rotate);
+                driveBL.setPower(forwardBackward + strafeLeft - strafeRight  + rotate);
+                driveBR.setPower(forwardBackward + strafeRight - strafeLeft  - rotate);
+            }
 
             // calls addTelemetry class to update telemetry
             addTelemetry();
@@ -98,12 +145,12 @@ public class Teleop extends LinearOpMode {
 
         telemetry.addData("Status", "Initialization Complete");
         telemetry.update();
-
     }
 
+    // class to add and update telemetry
     private void addTelemetry() {
         telemetry.addData("Forward Backward Power", forwardBackward);
-//            telemetry.addData("Strafe Power", leftRight);
+//      telemetry.addData("Strafe Power", leftRight);
         telemetry.addData("Rotate Power", rotate);
         telemetry.addData("Front Left Drive Motor Power", driveFL.getPower());
         telemetry.addData("Front Right Drive Motor Power", driveFR.getPower());
