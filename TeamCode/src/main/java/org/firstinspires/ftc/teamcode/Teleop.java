@@ -99,7 +99,7 @@ public class Teleop extends LinearOpMode {
             if (Math.abs(driveFL.getPower() ) > 1 || Math.abs(driveBL.getPower()) > 1 ||
                     Math.abs(driveFR.getPower()) > 1 || Math.abs(driveBR.getPower()) > 1 ) {
                 // Find the largest power
-                double max = 0;
+                double max;
                 max = Math.max(Math.abs(driveFL.getPower()), Math.abs(driveBL.getPower()));
                 max = Math.max(Math.abs(driveFR.getPower()), max);
                 max = Math.max(Math.abs(driveBR.getPower()), max);
