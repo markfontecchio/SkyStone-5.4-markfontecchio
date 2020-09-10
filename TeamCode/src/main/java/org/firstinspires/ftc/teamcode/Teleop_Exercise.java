@@ -10,8 +10,8 @@ public class Teleop_Exercise extends LinearOpMode {
     // sets variables for drive motors
     private DcMotor driveFL, driveFR, driveBL, driveBR;
 
-    // creates variables for inputs from controllers
-    private double forwardBackward, leftRight, rotate, strafeRight, strafeLeft;
+    // creates variables for drive inputs from controllers
+    private double forwardBackward, leftRight, rotate;
 
     @Override
     public void runOpMode() {
@@ -27,45 +27,36 @@ public class Teleop_Exercise extends LinearOpMode {
 
             // sets values of variables for gamepad1 (start+a) inputs
             forwardBackward = -gamepad1.left_stick_y;
-//            strafeRight = gamepad1.right_trigger;
-//            strafeLeft = gamepad1.left_trigger;
-            leftRight = gamepad1.left_stick_x;
+            leftRight = gamepad1.left_stick_x;  // uses left stick to strafe left and right
+//          leftRight = gamepad1.right_trigger - gamepad1.left_trigger    // uses triggers to strafe left and right
             rotate = gamepad1.right_stick_x;
 
 /*
-            // mini-program on driving forward and backward using left stick
+            // drives forward and backward
             driveFL.setPower(forwardBackward);
             driveFR.setPower(forwardBackward);
             driveBL.setPower(forwardBackward);
             driveBR.setPower(forwardBackward);
 
-            // mini program for strafing left and right using left stick
+            // strafes left and right
             driveFL.setPower(leftRight);
             driveFR.setPower(-leftRight);
             driveBL.setPower(-leftRight);
             driveBR.setPower(leftRight);
 */
-            // mini-program on driving and strafing using left stick
-            driveFL.setPower(1);
-            driveFR.setPower(1);
-            driveBL.setPower(1);
-            driveBR.setPower(1);
+           // drives forward/backward and strafes left/right
+            driveFL.setPower(forwardBackward + leftRight);
+            driveFR.setPower(forwardBackward - leftRight);
+            driveBL.setPower(forwardBackward - leftRight);
+            driveBR.setPower(forwardBackward + leftRight);
 /*
-            // mini-program on rotating using right stick
+            // rotates
             driveFL.setPower(rotate);
             driveFR.setPower(-rotate);
             driveBL.setPower(rotate);
             driveBR.setPower(-rotate);
 
-          // mini-program on strafing left and right using left and right triggers
-            driveFL.setPower(strafeRight-strafeLeft);
-            driveFR.setPower(strafeLeft-strafeRight);
-            driveBL.setPower(strafeLeft-strafeRight);
-            driveBR.setPower(strafeRight-strafeLeft);
 */
-
-
-
             // calls addTelemetry class to update telemetry
             addTelemetry();
 
