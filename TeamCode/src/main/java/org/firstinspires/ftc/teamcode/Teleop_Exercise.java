@@ -26,10 +26,10 @@ public class Teleop_Exercise extends LinearOpMode {
         while (opModeIsActive()) {
 
             // sets values of variables for gamepad1 (start+a) inputs
-            forwardBackward = -gamepad1.left_stick_y;
+            forwardBackward = -gamepad1.left_stick_y;  // uses left stick to move forward and backward
             leftRight = gamepad1.left_stick_x;  // uses left stick to strafe left and right
 //          leftRight = gamepad1.right_trigger - gamepad1.left_trigger    // uses triggers to strafe left and right
-            rotate = gamepad1.right_stick_x;
+            rotate = gamepad1.right_stick_x;  // uses right stick to rotate
 
 /*
             // drives forward and backward

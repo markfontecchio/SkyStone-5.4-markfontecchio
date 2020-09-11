@@ -24,7 +24,9 @@ public class AutonomousSquareNoIMU_Exercise extends LinearOpMode {
         if (opModeIsActive())
         {
             // autonomous code goes here
-
+            timedDrive("forward", 0.5, 1000); // drives forward at 0.5 motor power for 1000 milliseconds
+            timedDrive("backward", 0.5, 2000); //drives backward at 0.5 motor power for 2000 milliseconds
+            timedDrive("forward", 0.5, 1000); //drives forward at 0.5 motor power for 1000 milliseconds
 
             composeTelemetry();
         }
@@ -51,6 +53,36 @@ public class AutonomousSquareNoIMU_Exercise extends LinearOpMode {
 
         telemetry.addData("Status", "Initialization Complete");
         telemetry.update();
+    }
+
+    // class for autonomous driving, accepts direction, motor power and time
+    private void timedDrive(String direction, double power, int time) {
+        if (direction.equals("forward")){
+            driveFL.setPower(power);
+            driveFR.setPower(power);
+            driveBL.setPower(power);
+            driveBR.setPower(power);
+
+            sleep(time);
+
+            driveFL.setPower(0);
+            driveFR.setPower(0);
+            driveBL.setPower(0);
+            driveBR.setPower(0);
+        }
+        else if (direction.equals("backward")){
+            driveFL.setPower(-power);
+            driveFR.setPower(-power);
+            driveBL.setPower(-power);
+            driveBR.setPower(-power);
+
+            sleep(time);
+
+            driveFL.setPower(0);
+            driveFR.setPower(0);
+            driveBL.setPower(0);
+            driveBR.setPower(0);
+        }
     }
 
     // class to add and update telemetry
