@@ -24,8 +24,17 @@ public class AutonomousSquareNoIMU_Exercise extends LinearOpMode {
         if (opModeIsActive())
         {
             // autonomous code goes here
+            driveFL.setPower(0.5);
+            driveFR.setPower(0.5);
+            driveBL.setPower(0.5);
+            driveBR.setPower(0.5);
 
+            sleep(2000);
 
+            driveFL.setPower(0);
+            driveFR.setPower(0);
+            driveBL.setPower(0);
+            driveBR.setPower(0);
 
 //            timedDrive("forward", 0.5, 1000); // drives forward at 0.5 motor power for 1000 milliseconds
 //            timedDrive("backward", 0.5, 2000); //drives backward at 0.5 motor power for 2000 milliseconds
