@@ -17,6 +17,7 @@ public class AutonomousEncoder extends LinearOpMode {
 
         // maps drive motor variables to hardware configuration names
         //RLJ
+        //Matthew
         driveFL = hardwareMap.get(DcMotor.class, "motorTestFL");
         driveFR = hardwareMap.get(DcMotor.class, "motorTestFR");
         driveBL = hardwareMap.get(DcMotor.class, "motorTestBL");
