@@ -20,7 +20,7 @@ public class Teleop extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        // calls initialize class to do init routine
+        // function to do init routine
         initialize();
 
         // Wait for the game to start (driver presses PLAY)
@@ -118,7 +118,7 @@ public class Teleop extends LinearOpMode {
                 driveBR.setPower(forwardBackward + strafeRight - strafeLeft  - rotate);
             }
 
-            // calls addTelemetry class to update telemetry
+            // function to update telemetry
             addTelemetry();
 
         }
