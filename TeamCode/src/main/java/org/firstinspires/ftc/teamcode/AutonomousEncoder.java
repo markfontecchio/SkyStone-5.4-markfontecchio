@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous Square Encoder")
 
 public class AutonomousEncoder extends LinearOpMode {
-    //RLJ
+    //RLJ1 Test
+    //BANAaaaaaa
     // sets variables for drive motors
     private DcMotor driveFL, driveFR, driveBL, driveBR;
 
