@@ -18,12 +18,11 @@ public class AutonomousEncoder extends LinearOpMode {
         // maps drive motor variables to hardware configuration names
         //RLJ
         //Matthew
+        //NP
         driveFL = hardwareMap.get(DcMotor.class, "motorTestFL");
         driveFR = hardwareMap.get(DcMotor.class, "motorTestFR");
         driveBL = hardwareMap.get(DcMotor.class, "motorTestBL");
-        driveBR = hardwareMap.get(DcMotor.class, "motorTestBR");
-
-        // sets right motors to reverse direction so they're going the right way
+        driveBR = hardwareMap.get(DcMotor.class, "motorTestBR");// sets right motors to reverse direction so they're going the right way
         driveFR.setDirection(DcMotor.Direction.REVERSE);
         driveBR.setDirection(DcMotor.Direction.REVERSE);
 
