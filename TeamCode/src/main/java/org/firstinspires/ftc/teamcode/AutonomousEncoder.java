@@ -9,7 +9,7 @@ public class AutonomousEncoder extends LinearOpMode {
     //RLJ1 Test
     // sets variables for drive motors
     private DcMotor driveFL, driveFR, driveBL, driveBR;
-
+//RJeffrey
     @Override
     public void runOpMode() {
 
