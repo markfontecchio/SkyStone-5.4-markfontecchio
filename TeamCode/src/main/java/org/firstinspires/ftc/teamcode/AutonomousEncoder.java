@@ -10,6 +10,7 @@ public class AutonomousEncoder extends LinearOpMode {
     //Maahish
     //AK
     //TJ
+    //AS
     // sets variables for drive motors
     private DcMotor driveFL, driveFR, driveBL, driveBR;
 //RJeffrey
