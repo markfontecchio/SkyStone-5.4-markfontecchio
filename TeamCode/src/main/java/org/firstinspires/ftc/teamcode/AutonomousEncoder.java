@@ -48,14 +48,14 @@ public class AutonomousEncoder extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
 
         if (opModeIsActive()) {
-
+            //autonomous code goes here
 
         }
     }
 
     public void encoderDrive(double speed, int leftInches, int rightInches) {
         // Put run blocks here.
-        //Set the positino of the 4 motors
+        //Set the target position of the 4 motors
         driveFL.setTargetPosition(leftInches * 90);
         driveFR.setTargetPosition(rightInches * 90);
         driveBL.setTargetPosition(leftInches * 90);

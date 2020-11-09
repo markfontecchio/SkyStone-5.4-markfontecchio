@@ -4,7 +4,6 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -13,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Autonomous Square IMU")
+@Autonomous(name="Autonomous Square IMU")
 
 public class AutonomousSquareIMU extends LinearOpMode {
 
@@ -26,43 +25,9 @@ public class AutonomousSquareIMU extends LinearOpMode {
     // called when the initialization button is  pressed
     @Override
     public void runOpMode() throws InterruptedException {
-        // initialization code starts here
 
-        // maps drive motor variables to hardware configuration names
-        driveFL = hardwareMap.get(DcMotor.class, "motorTestFL");
-        driveFR = hardwareMap.get(DcMotor.class, "motorTestFR");
-        driveBL = hardwareMap.get(DcMotor.class, "motorTestBL");
-        driveBR = hardwareMap.get(DcMotor.class, "motorTestBR");
-
-        // sets right motors to reverse direction so they're going the right way
-        driveFR.setDirection(DcMotor.Direction.REVERSE);
-        driveBR.setDirection(DcMotor.Direction.REVERSE);
-
-        // sets drive motor zero power behavior to brake
-        driveFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        driveFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        driveBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        driveBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
-
-        // maps imu variables to hardware configuration name and initializes imu
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-
-        imu.initialize(parameters);
-
-        telemetry.addData("Mode", "calibrating...");
-        telemetry.update();
-
-        telemetry.addData("Status", "Initialization Complete");
-        telemetry.update();
-
-        // initialization code ends here
+        // function to initialize robot
+        initialize();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -110,6 +75,44 @@ public class AutonomousSquareIMU extends LinearOpMode {
 
         }
 
+    }
+
+    private void initialize() {
+
+        telemetry.addData("Status", "Initializing...");
+        telemetry.update();
+
+        // maps drive motor variables to hardware configuration names
+        driveFL = hardwareMap.get(DcMotor.class, "motorTestFL");
+        driveFR = hardwareMap.get(DcMotor.class, "motorTestFR");
+        driveBL = hardwareMap.get(DcMotor.class, "motorTestBL");
+        driveBR = hardwareMap.get(DcMotor.class, "motorTestBR");
+
+        // sets right motors to reverse direction so they're going the right way
+        driveFR.setDirection(DcMotor.Direction.REVERSE);
+        driveBR.setDirection(DcMotor.Direction.REVERSE);
+
+        // sets drive motor zero power behavior to brake
+        driveFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        driveFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        driveBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        driveBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // maps imu variables to hardware configuration name and initializes imu
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        // creates set of parameters for robot's IMU
+        BNO055IMU.Parameters IMUparameters = new BNO055IMU.Parameters();
+
+        IMUparameters.angleUnit = BNO055IMU.AngleUnit.DEGREES; // sets IMU angles to degrees
+        IMUparameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC; // sets IMU acceleration to m/s2
+        IMUparameters.mode = BNO055IMU.SensorMode.IMU; // sets IMU mode to IMU
+        IMUparameters.loggingEnabled = false;
+
+        imu.initialize(IMUparameters); // initializes IMU according to parameters we have set
+
+        telemetry.addData("Status", "Initialization Complete");
+        telemetry.update();
     }
 
     private void rotate(double degrees, double power)

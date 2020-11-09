@@ -27,36 +27,16 @@ public class Teleop_Exercise extends LinearOpMode {
 
             // sets values of variables for gamepad1 (start+a) inputs
             forwardBackward = -gamepad1.left_stick_y;  // uses left stick to move forward and backward
-            leftRight = gamepad1.left_stick_x;  // uses left stick to strafe left and right
-//          leftRight = gamepad1.right_trigger - gamepad1.left_trigger    // uses triggers to strafe left and right
-            rotate = gamepad1.right_stick_x;  // uses right stick to rotate
+//          leftRight = gamepad1.left_stick_x;  // uses left stick to strafe left and right
+            leftRight = gamepad1.right_trigger - gamepad1.left_trigger;    // uses triggers to strafe left and right
+//          rotate = gamepad1.right_stick_x;  // uses right stick to rotate
 
-/*
-            // drives forward and backward
-            driveFL.setPower(forwardBackward);
-            driveFR.setPower(forwardBackward);
-            driveBL.setPower(forwardBackward);
-            driveBR.setPower(forwardBackward);
+           // drives forward/backward and strafes left/right and rotates
+            driveFL.setPower(forwardBackward + leftRight);
+            driveFR.setPower(forwardBackward - leftRight);
+            driveBL.setPower(forwardBackward - leftRight);
+            driveBR.setPower(forwardBackward + leftRight);
 
-            // strafes left and right
-            driveFL.setPower(leftRight);
-            driveFR.setPower(-leftRight);
-            driveBL.setPower(-leftRight);
-            driveBR.setPower(leftRight);
-*/
-           // drives forward/backward and strafes left/right
-            driveFL.setPower(forwardBackward + leftRight + rotate);
-            driveFR.setPower(forwardBackward - leftRight - rotate);
-            driveBL.setPower(forwardBackward - leftRight + rotate);
-            driveBR.setPower(forwardBackward + leftRight - rotate);
-/*
-            // rotates
-            driveFL.setPower(rotate);
-            driveFR.setPower(-rotate);
-            driveBL.setPower(rotate);
-            driveBR.setPower(-rotate);
-
-*/
             // function to update telemetry
             addTelemetry();
 
